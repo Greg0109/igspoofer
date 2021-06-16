@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.greg0109.igspooferprefs</string>
+			<key>key</key>
+			<string>enabled</string>
+			<key>label</key>
+			<string>Enabled</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>placeholder</key>
+			<string>Here goes the real user (caps sensitive)</string>
+			<key>defaults</key>
+			<string>com.greg0109.igspooferprefs</string>
+			<key>key</key>
+			<string>realUser</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>placeholder</key>
+			<string>Here goes the fake username (caps sensitive)</string>
+			<key>defaults</key>
+			<string>com.greg0109.igspooferprefs</string>
+			<key>key</key>
+			<string>fakeUser</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>placeholder</key>
+			<string>Here goes the amount of fake likes (just the number)</string>
+			<key>defaults</key>
+			<string>com.greg0109.igspooferprefs</string>
+			<key>key</key>
+			<string>fakeLikes</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>placeholder</key>
+			<string>Here goes the amount of fake comments (just the number)</string>
+			<key>defaults</key>
+			<string>com.greg0109.igspooferprefs</string>
+			<key>key</key>
+			<string>fakeComments</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>IGSpoofer</string>
+</dict>
+</plist>
