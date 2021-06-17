@@ -27,13 +27,13 @@
 
 NSString *realUser;
 NSString *fakeUser;
-NSString *likesString = @"gusta";
+NSString *likesString = @"like";
 NSString *fakeLikes;
-NSString *commentsString = @"comentario";
+NSString *commentsString = @"comment";
 NSString *fakeComments;
 
 static NSString *replaceUserForText(NSString *text) {
-	NSString *modified = [text stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *modified = [[text lowercaseString] stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 	return modified;
 }
 
@@ -44,19 +44,20 @@ static NSString *replaceUserForText(NSString *text) {
 }
 
 -(void)_setText:(NSString *)arg1 {
-	NSString *textReplaced = replaceUserForText([arg1 lowercaseString]);
+	NSString *textReplaced = replaceUserForText(arg1);
 	%orig(textReplaced);
 }
 %end
 
 %hook IGStyledString // This is for likes and comments and user in comments?
 - (void)appendString:(id)arg1 {
-	if ([arg1 containsString:realUser]) {
-		NSString *modifiedString = [arg1 stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *origString = [arg1 lowercaseString];
+	if ([origString containsString:realUser]) {
+		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		%orig(modifiedString);
-	} else if ([arg1 containsString:likesString]) {
+	} else if ([origString containsString:likesString]) {
 		%orig([NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([arg1 containsString:commentsString]) {
+	} else if ([origString containsString:commentsString]) {
 		%orig([NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		%orig;
@@ -64,12 +65,13 @@ static NSString *replaceUserForText(NSString *text) {
 }
 
 - (void)appendLinkedString:(id)arg1 {
-	if ([arg1 containsString:realUser]) {
-		NSString *modifiedString = [arg1 stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *origString = [arg1 lowercaseString];
+	if ([origString containsString:realUser]) {
+		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		%orig(modifiedString);
-	} else if ([arg1 containsString:likesString]) {
+	} else if ([origString containsString:likesString]) {
 		%orig([NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([arg1 containsString:commentsString]) {
+	} else if ([origString containsString:commentsString]) {
 		%orig([NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		%orig;

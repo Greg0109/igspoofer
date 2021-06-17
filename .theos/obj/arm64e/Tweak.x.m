@@ -28,13 +28,13 @@
 
 NSString *realUser;
 NSString *fakeUser;
-NSString *likesString = @"gusta";
+NSString *likesString = @"like";
 NSString *fakeLikes;
-NSString *commentsString = @"comentario";
+NSString *commentsString = @"comment";
 NSString *fakeComments;
 
 static NSString *replaceUserForText(NSString *text) {
-	NSString *modified = [text stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *modified = [[text lowercaseString] stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 	return modified;
 }
 
@@ -59,7 +59,7 @@ static NSString *replaceUserForText(NSString *text) {
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class IGStyledString; @class UILabel; 
+@class UILabel; @class IGStyledString; 
 static NSString * (*_logos_orig$_ungrouped$UILabel$text)(_LOGOS_SELF_TYPE_NORMAL UILabel* _LOGOS_SELF_CONST, SEL); static NSString * _logos_method$_ungrouped$UILabel$text(_LOGOS_SELF_TYPE_NORMAL UILabel* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$_ungrouped$UILabel$_setText$)(_LOGOS_SELF_TYPE_NORMAL UILabel* _LOGOS_SELF_CONST, SEL, NSString *); static void _logos_method$_ungrouped$UILabel$_setText$(_LOGOS_SELF_TYPE_NORMAL UILabel* _LOGOS_SELF_CONST, SEL, NSString *); static void (*_logos_orig$_ungrouped$IGStyledString$appendString$)(_LOGOS_SELF_TYPE_NORMAL IGStyledString* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$_ungrouped$IGStyledString$appendString$(_LOGOS_SELF_TYPE_NORMAL IGStyledString* _LOGOS_SELF_CONST, SEL, id); static void (*_logos_orig$_ungrouped$IGStyledString$appendLinkedString$)(_LOGOS_SELF_TYPE_NORMAL IGStyledString* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$_ungrouped$IGStyledString$appendLinkedString$(_LOGOS_SELF_TYPE_NORMAL IGStyledString* _LOGOS_SELF_CONST, SEL, id); 
 
 #line 40 "Tweak.x"
@@ -70,19 +70,20 @@ static NSString * _logos_method$_ungrouped$UILabel$text(_LOGOS_SELF_TYPE_NORMAL 
 }
 
 static void _logos_method$_ungrouped$UILabel$_setText$(_LOGOS_SELF_TYPE_NORMAL UILabel* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, NSString * arg1) {
-	NSString *textReplaced = replaceUserForText([arg1 lowercaseString]);
+	NSString *textReplaced = replaceUserForText(arg1);
 	_logos_orig$_ungrouped$UILabel$_setText$(self, _cmd, textReplaced);
 }
 
 
  
 static void _logos_method$_ungrouped$IGStyledString$appendString$(_LOGOS_SELF_TYPE_NORMAL IGStyledString* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, id arg1) {
-	if ([arg1 containsString:realUser]) {
-		NSString *modifiedString = [arg1 stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *origString = [arg1 lowercaseString];
+	if ([origString containsString:realUser]) {
+		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, modifiedString);
-	} else if ([arg1 containsString:likesString]) {
+	} else if ([origString containsString:likesString]) {
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, [NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([arg1 containsString:commentsString]) {
+	} else if ([origString containsString:commentsString]) {
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, [NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, arg1);
@@ -90,12 +91,13 @@ static void _logos_method$_ungrouped$IGStyledString$appendString$(_LOGOS_SELF_TY
 }
 
 static void _logos_method$_ungrouped$IGStyledString$appendLinkedString$(_LOGOS_SELF_TYPE_NORMAL IGStyledString* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, id arg1) {
-	if ([arg1 containsString:realUser]) {
-		NSString *modifiedString = [arg1 stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *origString = [arg1 lowercaseString];
+	if ([origString containsString:realUser]) {
+		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, modifiedString);
-	} else if ([arg1 containsString:likesString]) {
+	} else if ([origString containsString:likesString]) {
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, [NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([arg1 containsString:commentsString]) {
+	} else if ([origString containsString:commentsString]) {
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, [NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, arg1);
@@ -103,7 +105,7 @@ static void _logos_method$_ungrouped$IGStyledString$appendLinkedString$(_LOGOS_S
 }
 
 
-static __attribute__((constructor)) void _logosLocalCtor_d89c9af8(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_79b7d147(int __unused argc, char __unused **argv, char __unused **envp) {
 	NSMutableDictionary *prefs = [NSMutableDictionary dictionaryWithContentsOfFile:@"/User/Library/Preferences/com.greg0109.igspooferprefs.plist"];
 	BOOL enabled = prefs[@"enabled"] ? [prefs[@"enabled"] boolValue] : YES;
 	realUser = prefs[@"realUser"] && !([prefs[@"realUser"] isEqualToString:@""]) ? [prefs[@"realUser"] stringValue] : @"User";

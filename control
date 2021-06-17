@@ -1,8 +1,8 @@
 Package: com.greg0109.igspoofer
 Name: IGSpoofer
-Version: 0.0.1
+Version: 1.0
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Fake stuff on instagram!
 Maintainer: Greg0109
 Author: Greg0109
 Section: Tweaks
