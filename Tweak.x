@@ -27,13 +27,13 @@
 
 NSString *realUser;
 NSString *fakeUser;
-NSString *likesString = @"like";
+NSString *likesString = @"likes";
 NSString *fakeLikes;
-NSString *commentsString = @"comment";
+NSString *commentsString = @"comments";
 NSString *fakeComments;
 
 static NSString *replaceUserForText(NSString *text) {
-	NSString *modified = [[text lowercaseString] stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *modified = [[text lowercaseString] stringByReplacingOccurrencesOfString:[realUser lowercaseString] withString:fakeUser];
 	return modified;
 }
 
@@ -55,9 +55,9 @@ static NSString *replaceUserForText(NSString *text) {
 	if ([origString containsString:realUser]) {
 		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		%orig(modifiedString);
-	} else if ([origString containsString:likesString]) {
+	} else if ([origString containsString:likesString] && ([[origString componentsSeparatedByString:@" "] count] == 2)) {
 		%orig([NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([origString containsString:commentsString]) {
+	} else if ([origString containsString:commentsString] && ([[origString componentsSeparatedByString:@" "] count] == 4)) {
 		%orig([NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		%orig;
@@ -69,9 +69,9 @@ static NSString *replaceUserForText(NSString *text) {
 	if ([origString containsString:realUser]) {
 		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		%orig(modifiedString);
-	} else if ([origString containsString:likesString]) {
+	} else if ([origString containsString:likesString] && ([[origString componentsSeparatedByString:@" "] count] == 2)) {
 		%orig([NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([origString containsString:commentsString]) {
+	} else if ([origString containsString:commentsString] && ([[origString componentsSeparatedByString:@" "] count] == 4)) {
 		%orig([NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		%orig;

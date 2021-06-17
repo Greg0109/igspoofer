@@ -28,13 +28,13 @@
 
 NSString *realUser;
 NSString *fakeUser;
-NSString *likesString = @"like";
+NSString *likesString = @"likes";
 NSString *fakeLikes;
-NSString *commentsString = @"comment";
+NSString *commentsString = @"comments";
 NSString *fakeComments;
 
 static NSString *replaceUserForText(NSString *text) {
-	NSString *modified = [[text lowercaseString] stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
+	NSString *modified = [[text lowercaseString] stringByReplacingOccurrencesOfString:[realUser lowercaseString] withString:fakeUser];
 	return modified;
 }
 
@@ -81,9 +81,9 @@ static void _logos_method$_ungrouped$IGStyledString$appendString$(_LOGOS_SELF_TY
 	if ([origString containsString:realUser]) {
 		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, modifiedString);
-	} else if ([origString containsString:likesString]) {
+	} else if ([origString containsString:likesString] && ([[origString componentsSeparatedByString:@" "] count] == 2)) {
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, [NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([origString containsString:commentsString]) {
+	} else if ([origString containsString:commentsString] && ([[origString componentsSeparatedByString:@" "] count] == 4)) {
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, [NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		_logos_orig$_ungrouped$IGStyledString$appendString$(self, _cmd, arg1);
@@ -95,9 +95,9 @@ static void _logos_method$_ungrouped$IGStyledString$appendLinkedString$(_LOGOS_S
 	if ([origString containsString:realUser]) {
 		NSString *modifiedString = [origString stringByReplacingOccurrencesOfString:realUser withString:fakeUser];
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, modifiedString);
-	} else if ([origString containsString:likesString]) {
+	} else if ([origString containsString:likesString] && ([[origString componentsSeparatedByString:@" "] count] == 2)) {
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, [NSString stringWithFormat:@"%@ Likes", fakeLikes]);
-	} else if ([origString containsString:commentsString]) {
+	} else if ([origString containsString:commentsString] && ([[origString componentsSeparatedByString:@" "] count] == 4)) {
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, [NSString stringWithFormat:@"View all %@ comments", fakeComments]);
 	} else {
 		_logos_orig$_ungrouped$IGStyledString$appendLinkedString$(self, _cmd, arg1);
